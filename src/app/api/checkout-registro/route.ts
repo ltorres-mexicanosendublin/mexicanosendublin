@@ -1,9 +1,17 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return new Response(
+        JSON.stringify({ error: "RESEND_API_KEY no configurada en el servidor" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const resend = new Resend(apiKey);
+
     const body = await req.json();
 
     const {
@@ -20,7 +28,6 @@ export async function POST(req: Request) {
       nursing,
     } = body ?? {};
 
-    // Validaciones mínimas (igual estilo que contact)
     if (!fullName || !email || !phone) {
       return new Response(
         JSON.stringify({ error: "Nombre, correo y teléfono son obligatorios" }),
@@ -90,8 +97,7 @@ export async function POST(req: Request) {
     `;
 
     const from =
-      process.env.RESEND_FROM ??
-      "Mexicanos en Dublin <onboarding@resend.dev>";
+      process.env.RESEND_FROM ?? "Mexicanos en Dublin <onboarding@resend.dev>";
 
     const { data, error } = await resend.emails.send({
       from,
@@ -108,10 +114,10 @@ export async function POST(req: Request) {
       });
     }
 
-    return new Response(
-      JSON.stringify({ ok: true, id: data?.id }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ ok: true, id: data?.id }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (e: any) {
     console.error("registro-worker error:", e);
     return new Response(
