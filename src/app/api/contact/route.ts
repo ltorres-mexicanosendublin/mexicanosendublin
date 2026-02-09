@@ -2,12 +2,20 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "RESEND_API_KEY no configurada en el servidor" },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(apiKey);
+
     const body = await req.json();
-    const { fullName, email } = body;
+    const { fullName, email } = body ?? {};
 
     if (!fullName || !email) {
       return NextResponse.json(
@@ -16,8 +24,11 @@ export async function POST(req: Request) {
       );
     }
 
+    const from =
+      process.env.RESEND_FROM ?? "Mexicanos en Dublin <onboarding@resend.dev>";
+
     const { error } = await resend.emails.send({
-      from: "Mexicanos en Dublin <onboarding@resend.dev>", // 👈 dominio seguro
+      from,
       to: "contacto@mexicanosendublin.com",
       replyTo: email,
       subject: "Nuevo lead escuelas",
@@ -29,16 +40,14 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ ok: true });
   } catch (e: any) {
+    console.error("contact error:", e);
     return NextResponse.json(
-      { error: e.message ?? "Error" },
+      { error: e?.message ?? "Error" },
       { status: 500 }
     );
   }
