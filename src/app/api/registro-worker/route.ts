@@ -1,10 +1,18 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "RESEND_API_KEY no configurada en el servidor" },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(apiKey);
+
     const body = await req.json();
 
     const {
@@ -19,7 +27,7 @@ export async function POST(req: Request) {
       englishProof,
       englishProofNote,
       nursing,
-      photoUrl, // ✅ NUEVO
+      photoUrl,
     } = body ?? {};
 
     // ✅ Validación mínima
@@ -115,6 +123,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true, id: data?.id }, { status: 200 });
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message ?? "Error" }, { status: 500 });
+    console.error("registro-worker error:", e);
+    return NextResponse.json(
+      { error: e?.message ?? "Error" },
+      { status: 500 }
+    );
   }
 }
