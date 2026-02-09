@@ -14,8 +14,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #000000;
   }
 }
 
@@ -23,4 +23,44 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+.container-wide {
+  @apply mx-auto max-w-6xl px-8 md:px-12 lg:px-16;
+}
+
+.pill {
+  @apply inline-flex items-center rounded-full border px-3 py-1 text-xs text-gray-700 bg-white;
+}
+
+.container-wide {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* --- Google Calendar scheduling button fixes --- */
+.gcal-button-wrap {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* El script de Google a veces mete wrappers con estilos raros */
+.gcal-button-wrap * {
+  max-width: 100%;
+}
+
+/* Fuerza a que el botón quede dentro de la card, no flotando abajo */
+.gcal-button-wrap .calendar-scheduling-button,
+.gcal-button-wrap [class*="scheduling"],
+.gcal-button-wrap button {
+  position: static !important;
+}
+
+/* Si Google inyecta un contenedor absoluto/fijo, lo neutralizamos dentro del wrap */
+.gcal-button-wrap [style*="position: fixed"],
+.gcal-button-wrap [style*="position:fixed"] {
+  position: static !important;
 }
