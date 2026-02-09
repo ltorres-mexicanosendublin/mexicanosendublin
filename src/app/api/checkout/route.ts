@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-});
-
 type CartItem = {
   id: string;
   name: string;
@@ -11,8 +8,17 @@ type CartItem = {
   qty: number;
 };
 
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY no configurada");
+  return new Stripe(key, {
+});
+}
+
 export async function POST(request: Request) {
   try {
+    const stripe = getStripe();
+
     const body = await request.json();
 
     const items: CartItem[] = body?.items ?? [];
@@ -24,16 +30,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Carrito vacío" }, { status: 400 });
     }
 
-    // subtotal en euros (number)
     const subtotal = items.reduce((sum, it) => sum + it.priceEUR * it.qty, 0);
 
-    // Stripe usa centavos (integer)
     const amountToCharge =
       mode === "deposit"
         ? Math.round(subtotal * 0.1 * 100) // 10% en centavos
         : Math.round(subtotal * 100); // 100% en centavos
 
-    // Ojo: mínimo 50 cents (depende de moneda/stripe), por seguridad:
     if (amountToCharge < 50) {
       return NextResponse.json(
         { error: "El monto es demasiado pequeño para cobrar con Stripe." },
@@ -41,6 +44,7 @@ export async function POST(request: Request) {
       );
     }
 
+    // ✅ Usa URL correcta en Vercel
     const baseUrl =
       process.env.NEXT_PUBLIC_BASE_URL ||
       (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
@@ -57,7 +61,6 @@ export async function POST(request: Request) {
                 mode === "deposit"
                   ? "Depósito 10% – Mexicanos en Dublín"
                   : "Pedido – Mexicanos en Dublín",
-              // opcional: descripción
               description:
                 mode === "deposit"
                   ? "Pagas 10% ahora. El resto por transferencia (24h)."
@@ -72,7 +75,6 @@ export async function POST(request: Request) {
         mode,
         deliveryPlace,
         deliveryDatetime,
-        // puedes guardar un resumen del carrito (corto) si quieres:
         itemsCount: String(items.reduce((n, it) => n + it.qty, 0)),
       },
       success_url: `${baseUrl}/success?mode=${mode}`,
