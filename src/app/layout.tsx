@@ -1,11 +1,15 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
+import CartProvider from "@/components/CartProvider";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className="min-h-screen bg-slate-900 text-white">
-        {children}
+      <body>
+        <CartProvider>
+          {children}
+        </CartProvider>
+
         <Analytics />
       </body>
     </html>
