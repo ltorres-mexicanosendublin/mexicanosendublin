@@ -19,20 +19,6 @@ function splitCSVLine(line: string) {
   return out.map((s) => s.replace(/^"|"$/g, ""));
 }
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "res.cloudinary.com" },
-      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
-      { protocol: "https", hostname: "drive.google.com" },
-      { protocol: "https", hostname: "lh3.googleusercontent.com" },
-    ],
-  },
-};
-
-module.exports = nextConfig;
-
 function parseCSV(csv: string) {
   const lines = csv
     .split(/\r?\n/)
@@ -75,17 +61,21 @@ export async function GET() {
     }
 
     const res = await fetch(url, { cache: "no-store" });
+
     if (!res.ok) {
       const preview = await res.text().catch(() => "");
       return NextResponse.json(
-        { error: `No se pudo leer el Sheet (${res.status})`, preview: preview.slice(0, 200) },
+        {
+          error: `No se pudo leer el Sheet (${res.status})`,
+          preview: preview.slice(0, 200),
+        },
         { status: 500 }
       );
     }
 
     const csv = await res.text();
 
-    // 🔥 Si esto aparece, NO es CSV (seguro es XLSX)
+    // Si esto aparece, no es CSV (posible XLSX)
     if (csv.includes("PK") && csv.includes("xml")) {
       return NextResponse.json(
         {
@@ -138,5 +128,4 @@ export async function GET() {
     console.error("api/workers error:", e);
     return NextResponse.json({ error: e?.message ?? "Error interno" }, { status: 500 });
   }
-  
 }

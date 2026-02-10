@@ -1,6 +1,12 @@
-import type { NextConfig } from "next";
+const withPWA = require("next-pwa")({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+});
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
@@ -9,7 +15,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
     ],
   },
+
+  // evita broncas con Turbopack + webpack
+  turbopack: {},
+
+  // si lo estabas usando
   reactCompiler: true,
 };
 
-export default nextConfig;
+module.exports = withPWA(nextConfig);
