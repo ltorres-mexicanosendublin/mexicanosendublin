@@ -312,13 +312,12 @@ export default function ProductosPage() {
                     <div className="p-4 pb-0">
   <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-100">
     {p.imageUrl ? (
-      <Image
-        src={p.imageUrl}
-        alt={p.name}
-        fill
-        className="object-contain p-3 transition-transform duration-300 ease-out group-hover:scale-105"
-        sizes="(max-width: 768px) 100vw, 33vw"
-      />
+      <img
+  src={p.imageUrl}
+  alt={p.name}
+  className="h-full w-full object-contain p-3"
+/>
+
     ) : (
       <div className="flex h-full w-full items-center justify-center text-xs text-zinc-400">
         Sin imagen
