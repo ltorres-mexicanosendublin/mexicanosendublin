@@ -21,20 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-<body
-  className="
-    min-h-screen
-    bg-gradient-to-br
-    from-[#020617]
-    via-[#0B1220]
-    to-[#020617]
-    text-slate-200
-    antialiased
-  "
->
-  {children}
-</body>
+      <body>
+        <CartProvider>
+          {children}
+        </CartProvider>
 
+        <Analytics />
+      </body>
     </html>
   );
 }
