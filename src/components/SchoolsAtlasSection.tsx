@@ -177,13 +177,12 @@ const payload = {
               </p>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <button
-                  onClick={() => setOpen(true)}
-                  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
-                >
-                  Quiero más información
-                </button>
-
+                <Link
+  href="/escuelas/formulario?school=atlas"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info
+</Link>
                 <a
                   href="https://atlaslanguageschool.com/atlas-dublin/#"
                   target="_blank"
@@ -361,12 +360,12 @@ const payload = {
             </p>
           </div>
 
-          <button
-            onClick={() => setOpen(true)}
-            className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
-          >
-            Pedir información
-          </button>
+          <Link
+  href="/escuelas/formulario?school=atlas"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info 
+</Link>
         </div>
       </section>
 <section className="mt-6">

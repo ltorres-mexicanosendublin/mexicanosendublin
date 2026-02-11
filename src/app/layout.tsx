@@ -1,18 +1,7 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import CartProvider from "@/components/CartProvider";
-
-export const metadata = {
-  title: "Mexicanos en Dublin",
-  description: "Comunidad, servicios y guías para mexicanos en Irlanda",
-  manifest: "/manifest.webmanifest",
-  themeColor: "#0f172a",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "Mexicanos en Dublin",
-  },
-};
+import CartDrawer from "@/components/CartDrawer";
 
 export default function RootLayout({
   children,
@@ -24,6 +13,7 @@ export default function RootLayout({
       <body>
         <CartProvider>
           {children}
+          <CartDrawer />  {/* ✅ AQUÍ ADENTRO */}
         </CartProvider>
 
         <Analytics />

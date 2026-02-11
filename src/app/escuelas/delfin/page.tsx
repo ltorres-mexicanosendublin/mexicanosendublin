@@ -28,6 +28,7 @@ export default function DelfinSchoolPage() {
   const [sentOk, setSentOk] = useState<string | null>(null);
 
   // form
+  const [school, setSchool] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -139,13 +140,12 @@ export default function DelfinSchoolPage() {
               </p>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <button
-                  onClick={() => setOpen(true)}
-                  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
-                >
-                  Pedir información
-                </button>
-
+                                <Link
+  href="/escuelas/formulario?school=delfin"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info
+</Link>
                 <a
                   href="https://delfinschool.com/"
                   target="_blank"
@@ -287,12 +287,12 @@ export default function DelfinSchoolPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => setOpen(true)}
-            className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
-          >
-            Pedir información
-          </button>
+         <Link
+  href="/escuelas/formulario?school=delfin"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info
+</Link>
         </div>
       </section>
 
@@ -404,7 +404,7 @@ export default function DelfinSchoolPage() {
                   <option value="accommodation_help">Quiero ayuda con alojamiento</option>
                 </select>
               </div>
-
+              
               <div>
                 <label className="text-xs font-medium text-gray-600">Fecha deseada de inicio *</label>
                 <input
@@ -414,6 +414,7 @@ export default function DelfinSchoolPage() {
                   type="date"
                 />
               </div>
+              
 
               <div className="md:col-span-2">
                 <label className="text-xs font-medium text-gray-600">
@@ -429,6 +430,7 @@ export default function DelfinSchoolPage() {
                   <option value="no">No</option>
                 </select>
               </div>
+              
 
               <div className="md:col-span-2">
                 <label className="text-xs font-medium text-gray-600">Notas (opcional)</label>

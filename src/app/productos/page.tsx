@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/components/CartProvider";
+import { ShoppingCart } from "lucide-react";
 
 type Product = {
   id: string;
@@ -150,12 +151,16 @@ export default function ProductosPage() {
             </button>
 
             <button
-              className="rounded-2xl bg-zinc-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black transition"
-              onClick={open}
-              title="Abrir carrito"
-            >
-              🧺 Carrito <span className="opacity-90">({totalItems})</span>
-            </button>
+  className="rounded-2xl bg-zinc-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black transition inline-flex items-center gap-2"
+  onClick={open}
+  title="Open trolley"
+>
+  🛒 <span>Trolley</span>
+  <span className="ml-1 rounded-full bg-white/15 px-2 py-0.5 text-xs font-bold">
+    {totalItems}
+  </span>
+</button>
+
           </div>
         </div>
 

@@ -214,13 +214,12 @@ export default function SchoolsMenuPage() {
               Entra a la escuela que te interesa y llena el formulario. Te contactamos por correo.
             </p>
           </div>
-
-          <Link
-            href="/escuelas/atlas"
-            className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
-          >
-            Pedir info (Atlas)
-          </Link>
+                <Link
+  href="/escuelas/formulario?school=atlas"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info
+</Link>
         </div>
       </section>
     </main>

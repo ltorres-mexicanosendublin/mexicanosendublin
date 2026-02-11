@@ -204,12 +204,12 @@ export default function IsiSchoolPage() {
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <button
-              onClick={() => setOpen(true)}
-              className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
-            >
-              Pedir información
-            </button>
+                                        <Link
+  href="/escuelas/formulario?school=isi"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info
+</Link>
 
             <a
               href="#programas"
@@ -307,12 +307,12 @@ export default function IsiSchoolPage() {
               <p className="mt-2 text-sm text-gray-600">Resumen claro de las opciones principales.</p>
             </div>
 
-            <button
-              onClick={() => setOpen(true)}
-              className="inline-flex items-center justify-center rounded-2xl bg-black px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
-            >
-              Pedir info
-            </button>
+                                        <Link
+  href="/escuelas/formulario?school=isi"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info
+</Link>
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -396,12 +396,12 @@ export default function IsiSchoolPage() {
             <p className="mt-1 text-sm text-gray-600">Llena el formulario y te respondemos por correo.</p>
           </div>
 
-          <button
-            onClick={() => setOpen(true)}
-            className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
-          >
-            Pedir información
-          </button>
+          <Link
+  href="/escuelas/formulario?school=isi"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info
+</Link>
         </div>
       </section>
 
@@ -550,13 +550,12 @@ export default function IsiSchoolPage() {
                   {loading ? "Enviando..." : "Enviar solicitud"}
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  className="inline-flex w-full items-center justify-center rounded-2xl border px-4 py-3 text-sm font-semibold hover:bg-gray-50"
-                >
-                  Cancelar
-                </button>
+                                            <Link
+  href="/escuelas/formulario?school=isi"
+  className="inline-flex items-center justify-center rounded-2xl bg-black px-6 py-3 text-sm font-semibold text-white hover:opacity-90"
+>
+  Pedir info
+</Link>
               </div>
 
               <p className="md:col-span-2 text-xs text-gray-500">
