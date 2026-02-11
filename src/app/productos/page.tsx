@@ -310,37 +310,39 @@ export default function ProductosPage() {
                   >
                     {/* Image */}
                     <div className="p-4 pb-0">
-                      <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-100">
-                        {p.imageUrl ? (
-                          <Image
-                            src={p.imageUrl}
-                            alt={p.name}
-                            fill
-                            className="object-cover transition-transform duration-300 ease-out group-hover:scale-110"
-                          />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center text-xs text-zinc-400">
-                            Sin imagen
-                          </div>
-                        )}
+  <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-100">
+    {p.imageUrl ? (
+      <Image
+        src={p.imageUrl}
+        alt={p.name}
+        fill
+        className="object-contain p-3 transition-transform duration-300 ease-out group-hover:scale-105"
+        sizes="(max-width: 768px) 100vw, 33vw"
+      />
+    ) : (
+      <div className="flex h-full w-full items-center justify-center text-xs text-zinc-400">
+        Sin imagen
+      </div>
+    )}
 
-                        {/* Badge */}
-                        <div className="absolute left-3 top-3 flex gap-2">
-                          <span className="rounded-full bg-white/90 px-2 py-1 text-[11px] font-semibold text-zinc-700 shadow-sm">
-                            {p.type}
-                          </span>
-                          {disabled ? (
-                            <span className="rounded-full bg-rose-100 px-2 py-1 text-[11px] font-semibold text-rose-800">
-                              Agotado
-                            </span>
-                          ) : (
-                            <span className="rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-semibold text-emerald-800">
-                              Disponible
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+    {/* Badge */}
+    <div className="absolute left-3 top-3 flex gap-2">
+      <span className="rounded-full bg-white/90 px-2 py-1 text-[11px] font-semibold text-zinc-700 shadow-sm">
+        {p.type}
+      </span>
+      {disabled ? (
+        <span className="rounded-full bg-rose-100 px-2 py-1 text-[11px] font-semibold text-rose-800">
+          Agotado
+        </span>
+      ) : (
+        <span className="rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-semibold text-emerald-800">
+          Disponible
+        </span>
+      )}
+    </div>
+  </div>
+</div>
+
 
                     {/* Content */}
                     <div className="p-4">
