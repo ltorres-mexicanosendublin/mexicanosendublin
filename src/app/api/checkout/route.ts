@@ -10,15 +10,33 @@ type CartItem = {
 
 function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
+
   if (!key) throw new Error("STRIPE_SECRET_KEY no configurada");
+  if (!key.startsWith("sk_")) {
+    throw new Error("STRIPE_SECRET_KEY debe iniciar con sk_ (no pk_)");
+  }
+
   return new Stripe(key, {
-});
+    
+  });
+}
+
+function getBaseUrl() {
+  // 1) Preferido: URL explícita (prod)
+  const fromEnv = process.env.NEXT_PUBLIC_BASE_URL?.trim();
+  if (fromEnv) return fromEnv;
+
+  // 2) Vercel
+  const vercelUrl = process.env.VERCEL_URL?.trim();
+  if (vercelUrl) return `https://${vercelUrl}`;
+
+  // 3) Local fallback
+  return "http://localhost:3000";
 }
 
 export async function POST(request: Request) {
   try {
     const stripe = getStripe();
-
     const body = await request.json();
 
     const items: CartItem[] = body?.items ?? [];
@@ -44,14 +62,20 @@ export async function POST(request: Request) {
       );
     }
 
-    // ✅ Usa URL correcta en Vercel
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL ||
-      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+    const baseUrl = getBaseUrl();
+
+    // ✅ Seguridad extra: en producción no permitas localhost
+    if (process.env.NODE_ENV === "production" && baseUrl.includes("localhost")) {
+      throw new Error(
+        "NEXT_PUBLIC_BASE_URL apunta a localhost en producción. Configúrala en Vercel con tu dominio."
+      );
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
+
+      // Si quieres itemizado por producto, te lo armo después. Por ahora 1 línea total.
       line_items: [
         {
           price_data: {
@@ -71,12 +95,14 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
+
       metadata: {
         mode,
         deliveryPlace,
         deliveryDatetime,
         itemsCount: String(items.reduce((n, it) => n + it.qty, 0)),
       },
+
       success_url: `${baseUrl}/success?mode=${mode}`,
       cancel_url: `${baseUrl}/cancel`,
     });
