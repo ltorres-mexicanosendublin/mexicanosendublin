@@ -3,7 +3,25 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SearchBox from "@/components/SearchBox";
 import WorkersCardGate from "@/components/WorkersCardGate";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Mexicanos en Dublín | Comunidad, trabajo y escuelas en Irlanda",
+  description:
+    "Guía para mexicanos en Dublín: escuelas de inglés (Atlas, CES, ISI, Delfin), trabajo, renta, IRP/PPS y comunidad.",
+  alternates: {
+    canonical: "https://mexicanosendublin.com/",
+  },
+  openGraph: {
+  title: "Mexicanos en Dublín | Comunidad, trabajo y escuelas en Irlanda",
+  description:
+    "Guía para mexicanos en Dublín: escuelas de inglés, trabajo, renta, IRP/PPS y comunidad.",
+  url: "https://mexicanosendublin.com/",
+  siteName: "Mexicanos en Dublín",
+  locale: "es_ES",
+  type: "website",
+},
+};
 
 const featuredGuides = [ 
   
@@ -77,16 +95,18 @@ export default function HomePage() {
         </span>
       </div>
     </div>
-
-    <h1 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-      Estudia inglés en Dublín con claridad:
-      <span className="block">escuela, trámites y renta sin estafas.</span>
-    </h1>
-
+<h1 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
+  Mexicanos en Dublín
+  <span className="block text-gray-900">
+    Guía para estudiar, trabajar y vivir en Irlanda con claridad.
+  </span>
+</h1>
     <p className="mt-4 max-w-2xl text-gray-600 md:text-lg">
-      Te ayudamos a elegir <strong>escuela</strong> (Atlas, Delfin, ISI),
-      entender <strong>IRP/PPS</strong> y moverte con confianza desde el día 1.
-    </p>
+  Una guía hecha para <strong>mexicanos en Dublín</strong> que buscan estudiar,
+  trabajar y vivir en Irlanda con claridad. Compara escuelas de inglés
+  (Atlas, CES, ISI, Delfin), entiende <strong>IRP/PPS</strong> y evita estafas de renta.
+</p>
+
 
     <SearchBox />
 
