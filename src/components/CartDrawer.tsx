@@ -41,6 +41,8 @@ export default function CartDrawer() {
   const [deliveryDatetime, setDeliveryDatetime] = useState<string>("");
 
   const empty = items.length === 0;
+const MIN_STRIPE_AMOUNT = 10;
+const canPayWithStripe = !empty && subtotal >= MIN_STRIPE_AMOUNT;
 
   const totals = useMemo(() => {
     const total = subtotal;
@@ -423,18 +425,31 @@ export default function CartDrawer() {
           </div>
 
           <button
-            onClick={handlePay}
-            disabled={empty || isPaying}
-            className="mt-3 inline-flex w-full items-center justify-center rounded-2xl bg-black px-6 py-4 text-base font-semibold text-white hover:opacity-90 disabled:opacity-60"
-          >
-            {isPaying
-              ? "Redirigiendo a Stripe..."
-              : payOption === "transfer"
-              ? "Generar datos de transferencia"
-              : payOption === "deposit"
-              ? "Pagar 10% con Stripe"
-              : "Pagar con Stripe"}
-          </button>
+  type="button"
+  onClick={handlePay}
+  disabled={empty || isPaying || (payOption !== "transfer" && !canPayWithStripe)}
+  className={`mt-3 inline-flex w-full items-center justify-center rounded-2xl px-6 py-4 text-base font-semibold text-white transition
+    ${
+      empty || isPaying || (payOption !== "transfer" && !canPayWithStripe)
+        ? "bg-zinc-400 opacity-60 cursor-not-allowed"
+        : "bg-black hover:opacity-90 active:scale-[0.99]"
+    }`}
+>
+  {isPaying
+    ? "Redirigiendo a Stripe..."
+    : payOption === "transfer"
+    ? "Generar datos de transferencia"
+    : payOption === "deposit"
+    ? `Pagar 10% con Stripe (mín. €${MIN_STRIPE_AMOUNT})`
+    : `Pagar con Stripe (mín. €${MIN_STRIPE_AMOUNT})`}
+</button>
+{payOption !== "transfer" && subtotal < MIN_STRIPE_AMOUNT && !empty && (
+  <p className="mt-2 text-xs text-rose-600">
+    El mínimo para pagar con tarjeta es <b>€{MIN_STRIPE_AMOUNT}</b>.  
+    Puedes agregar más productos o elegir <b>transferencia</b>.
+  </p>
+)}
+
 
           <p className="mt-2 text-xs text-gray-500">
             *Tarjeta: checkout seguro. Transferencia: se genera ficha (por ahora placeholder).
